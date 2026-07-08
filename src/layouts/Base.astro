@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
@@ -23,6 +24,14 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <link
+      rel="preload"
+      href="/fonts/ClashDisplay-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <ClientRouter />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -31,7 +40,7 @@ const {
       <slot />
     </main>
     <Footer />
-    <WhatsAppFloat />
+    <WhatsAppFloat transition:persist />
 
     <style>
       .skip-link {
@@ -50,31 +59,9 @@ const {
     </style>
 
     <script>
-      // Mark JS active so the reveal's hidden initial state applies only here.
-      document.documentElement.classList.add('js');
-
-      const els = Array.from(document.querySelectorAll('.reveal'));
-      const revealAll = () => els.forEach((el) => el.classList.add('in'));
-
-      if (!('IntersectionObserver' in window)) {
-        revealAll();
-      } else {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add('in');
-                io.unobserve(e.target);
-              }
-            }
-          },
-          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-        );
-        els.forEach((el) => io.observe(el));
-        // Failsafe: guarantee content shows even if the observer never fires
-        // (background/hidden tabs, headless renderers, fast scrolls).
-        setTimeout(revealAll, 1000);
-      }
+      import { initPage } from '../lib/motion';
+      // Runs on first load AND after every ClientRouter navigation.
+      document.addEventListener('astro:page-load', () => initPage());
     </script>
   </body>
 </html>

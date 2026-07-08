@@ -1,17 +1,44 @@
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
 :root {
   --bg: #1a1a1a;
   --surface: #202020;
   --surface-2: #262626;
   --border: #2e2e2e;
   --ink: #ffffff;
-  --muted: #898989;
-  --muted-2: #b3b3b3;
+  --muted: #9a9a9a; /* was #898989 — lifted to clear 4.5:1 on #1a1a1a */
+  --muted-2: #bdbdbd;
   --accent: #1a65fc;
-  --accent-hover: #2f74ff;
+  --accent-hover: #3f7bff;
+
+  --display: 'Clash Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
 
   --max: 1200px;
   --radius: 14px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* z-index scale */
   --z-sticky: 100;
@@ -35,8 +62,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--muted-2);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  font-family: var(--sans);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -58,11 +84,16 @@ h2,
 h3,
 h4 {
   color: var(--ink);
-  font-weight: 800;
+  font-family: var(--display);
+  font-weight: 600;
   line-height: 1.08;
   letter-spacing: -0.02em;
   text-wrap: balance;
   margin: 0 0 0.5em;
+}
+h1,
+h2 {
+  font-weight: 700;
 }
 
 p {
@@ -148,32 +179,59 @@ section {
   color: var(--accent);
 }
 
-/* Reveal on scroll — content is visible by default; the hidden initial state
-   only applies when JS is active (html.js), so no-JS and headless renders
-   always show content. A failsafe in Base.astro reveals everything after a
-   short delay if the observer never fires. */
-.js .reveal:not(.in) {
-  opacity: 0;
-  transform: translateY(24px);
+/* Reveal is content-visible by default. GSAP (src/lib/motion.ts) sets the
+   hidden start state at runtime ONLY when motion is allowed, so no-JS,
+   reduced-motion, and headless renders always show content. */
+.reveal {
+  will-change: opacity, transform;
 }
 
-.reveal {
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-  will-change: opacity, transform;
+/* Accessible focus — visible ring only for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Page transitions (Astro ClientRouter / View Transitions API).
+   Root is a plain, quick opacity crossfade — no drift — so the shared-element
+   cover morph (transition:name="cover-*") is the only thing that moves and
+   reads cleanly. */
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+::view-transition-old(root) {
+  animation: vt-fade-out 0.24s ease both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 0.28s ease both;
+}
+/* Smooth the FLIP on every shared-element group (incl. the cover-* morphs). */
+::view-transition-group(*) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--ease-expo);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .js .reveal:not(.in) {
-    opacity: 1;
-    transform: none;
-  }
-  .reveal {
-    transition: none;
-  }
   .btn:hover {
     transform: none;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
+    animation: none !important;
   }
 }
