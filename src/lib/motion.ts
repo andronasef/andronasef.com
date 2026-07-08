@@ -79,7 +79,70 @@ export function initPage() {
   ScrollTrigger.refresh();
 }
 
-// If a soft nav lands mid-page, make sure Lenis is at the right offset.
-export function resetScroll() {
-  lenis?.scrollTo(0, { immediate: true });
+// After a ClientRouter swap the browser sets window scroll (0 for a new page,
+// the restored offset for history back/forward). Lenis keeps its own stale
+// internal offset and would snap the page back on the next frame — so sync it
+// to whatever the browser just set.
+export function syncScroll() {
+  if (!lenis) return;
+  lenis.scrollTo(window.scrollY, { immediate: true, force: true });
+}
+
+// ---- GSAP page transition (a layered curtain that matches the dark/blue vibe).
+// A blue accent panel and a near-black panel sweep up to cover the screen (with
+// the terminal logo mark), the page swaps underneath, then they sweep up and
+// off to reveal. Replaces Astro's view-transition visuals entirely.
+let covered = false;
+
+function panels() {
+  const el = document.getElementById('pageTransition');
+  if (!el) return null;
+  return {
+    accent: el.querySelector<HTMLElement>('.pt-accent'),
+    dark: el.querySelector<HTMLElement>('.pt-dark'),
+    logo: el.querySelector<HTMLElement>('.pt-logo'),
+  };
+}
+
+// Cover the screen; resolves when fully covered so the swap can happen hidden.
+export function coverPage(): Promise<void> {
+  const p = panels();
+  if (reduce || !p) return Promise.resolve();
+  covered = true;
+  return new Promise((resolve) => {
+    gsap
+      .timeline({ onComplete: () => resolve() })
+      // y:0 clears the px value GSAP infers from the CSS translateY(100%),
+      // so only yPercent drives the panels.
+      .set([p.accent, p.dark], { yPercent: 100, y: 0 })
+      .set(p.logo, {
+        opacity: 0, scale: 1.5, y: 6
+      })
+      .to(p.accent, { yPercent: 0, duration: 0.5, ease: 'power4.inOut' }, 0)
+      .to(p.dark, { yPercent: 0, duration: 0.5, ease: 'power4.inOut' }, 0.08)
+      .to(
+        p.logo,
+        { opacity: 1, scale: 2, y: 0, duration: 0.4, ease: 'power2.out' },
+        0.3
+      );
+  });
+}
+
+// Sweep the panels off to reveal the freshly-swapped page. Skips on first load
+// (nothing was covered) so it never hides content the user hasn't seen.
+export function revealPage() {
+  const p = panels();
+  if (!p || !covered) return;
+  covered = false;
+  if (reduce) {
+    gsap.set([p.accent, p.dark], { yPercent: 100, y: 0 });
+    gsap.set(p.logo, { opacity: 0 });
+    return;
+  }
+  gsap
+    .timeline()
+    .to(p.logo, { opacity: 0, duration: 0.2, ease: 'power2.in' }, 0)
+    .to(p.dark, { yPercent: -100, duration: 0.6, ease: 'power4.inOut' }, 0.05)
+    .to(p.accent, { yPercent: -100, duration: 0.6, ease: 'power4.inOut' }, 0.14)
+    .set([p.accent, p.dark], { yPercent: 100, y: 0 }); // park below for next time
 }

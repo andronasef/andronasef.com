@@ -24,13 +24,9 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
-    <link
-      rel="preload"
-      href="/fonts/ClashDisplay-Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <link rel="preload" href="/fonts/ClashDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ClashDisplay-Semibold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ClashDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin />
     <ClientRouter />
   </head>
   <body>
@@ -41,6 +37,13 @@ const {
     </main>
     <Footer />
     <WhatsAppFloat transition:persist />
+
+    <div class="page-transition" id="pageTransition" aria-hidden="true" transition:persist>
+      <div class="pt-accent"></div>
+      <div class="pt-dark">
+        <img class="pt-logo" src="/assets/logo.svg" alt="" width="56" height="56" />
+      </div>
+    </div>
 
     <style>
       .skip-link {
@@ -56,12 +59,78 @@ const {
       .skip-link:focus {
         left: 0;
       }
+
+      /* GSAP page-transition curtain. Panels park off-screen (below) until a
+         navigation drives them via src/lib/motion.ts. */
+      .page-transition {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .pt-accent,
+      .pt-dark {
+        position: absolute;
+        inset: 0;
+        transform: translateY(100%);
+        will-change: transform;
+      }
+      .pt-accent {
+        background: var(--accent);
+      }
+      .pt-dark {
+        background: #141414;
+        display: grid;
+        place-items: center;
+      }
+      .pt-logo {
+        width: 56px;
+        height: auto;
+        opacity: 0;
+      }
     </style>
 
     <script>
-      import { initPage } from '../lib/motion';
+      import { initPage, syncScroll, coverPage, revealPage } from '../lib/motion';
+
+      // Drive the GSAP curtain: cover the screen (in parallel with fetching the
+      // next page) before the swap, then reveal it once the new page is in.
+      document.addEventListener('astro:before-preparation', (e: any) => {
+        const load = e.loader;
+        e.loader = async () => {
+          await Promise.all([coverPage(), load()]);
+        };
+      });
+
+      // Don't re-navigate (and re-animate) when a link points at the page we're
+      // already on. Capture-phase so it beats ClientRouter's own handler.
+      document.addEventListener(
+        'click',
+        (e) => {
+          const a = (e.target as HTMLElement)?.closest?.('a[href]') as HTMLAnchorElement | null;
+          if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+          const url = new URL(a.href, location.href);
+          if (
+            url.origin === location.origin &&
+            url.pathname === location.pathname &&
+            url.search === location.search &&
+            url.hash === location.hash
+          ) {
+            e.preventDefault();
+          }
+        },
+        { capture: true }
+      );
+
+      // Keep Lenis in sync with the scroll position ClientRouter set (top for a
+      // new page, restored offset on history back/forward).
+      document.addEventListener('astro:after-swap', syncScroll);
       // Runs on first load AND after every ClientRouter navigation.
-      document.addEventListener('astro:page-load', () => initPage());
+      document.addEventListener('astro:page-load', () => {
+        initPage();
+        revealPage();
+      });
     </script>
   </body>
 </html>

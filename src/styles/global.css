@@ -2,21 +2,21 @@
   font-family: 'Clash Display';
   src: url('/fonts/ClashDisplay-Medium.woff2') format('woff2');
   font-weight: 500;
-  font-display: swap;
+  font-display: optional;
   font-style: normal;
 }
 @font-face {
   font-family: 'Clash Display';
   src: url('/fonts/ClashDisplay-Semibold.woff2') format('woff2');
   font-weight: 600;
-  font-display: swap;
+  font-display: optional;
   font-style: normal;
 }
 @font-face {
   font-family: 'Clash Display';
   src: url('/fonts/ClashDisplay-Bold.woff2') format('woff2');
   font-weight: 700;
-  font-display: swap;
+  font-display: optional;
   font-style: normal;
 }
 
@@ -196,30 +196,14 @@ section {
   outline: none;
 }
 
-/* Page transitions (Astro ClientRouter / View Transitions API).
-   Root is a plain, quick opacity crossfade — no drift — so the shared-element
-   cover morph (transition:name="cover-*") is the only thing that moves and
-   reads cleanly. */
-@keyframes vt-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-@keyframes vt-fade-out {
-  to {
-    opacity: 0;
-  }
-}
-::view-transition-old(root) {
-  animation: vt-fade-out 0.24s ease both;
-}
+/* The browser's own view-transition visuals are disabled — the swap is instant
+   and hidden behind the GSAP curtain (src/lib/motion.ts, .page-transition).
+   ClientRouter is kept only for the SPA-style swap + persistence. */
+::view-transition-group(*),
+::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: vt-fade-in 0.28s ease both;
-}
-/* Smooth the FLIP on every shared-element group (incl. the cover-* morphs). */
-::view-transition-group(*) {
-  animation-duration: 0.5s;
-  animation-timing-function: var(--ease-expo);
+  animation: none !important;
+  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -228,10 +212,5 @@ section {
   }
   .btn:hover {
     transform: none;
-  }
-  ::view-transition-old(root),
-  ::view-transition-new(root),
-  ::view-transition-group(*) {
-    animation: none !important;
   }
 }
