@@ -13,14 +13,7 @@ const href = `/projects/${slug}/`;
 
 <article class="proj reveal">
   <a href={href} class="proj-media" aria-label={title}>
-    <img
-      src={cover}
-      alt={title}
-      width="561"
-      height="374"
-      loading="lazy"
-      transition:name={`cover-${slug}`}
-    />
+    <img src={cover} alt={title} width="561" height="374" loading="lazy" />
   </a>
   <div class="proj-tags">
     {tags.map((t) => <span class="tag">{t}</span>)}
