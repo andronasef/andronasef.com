@@ -1,0 +1,180 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const details = [
+  {
+    title: 'Physical Address',
+    value: 'Cairo, Egypt',
+    href: null,
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  },
+  {
+    title: 'Email Address',
+    value: 'andronasef@gmail.com',
+    href: 'mailto:andronasef@gmail.com',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>',
+  },
+  {
+    title: 'Phone Number',
+    value: '(+20) 100 435 9533',
+    href: 'tel:+201004359533',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+  },
+];
+---
+
+<Base title="Contact — Andrew Nasef" description="Let's talk about your project. Get in touch with Andrew Nasef.">
+  <PageHeader title="Contact" crumb="Contact" />
+
+  <section>
+    <div class="container contact-grid">
+      <div class="contact-info">
+        {details.map((d) => (
+          <div class="info reveal">
+            <div class="info-icon" set:html={d.icon} />
+            <div>
+              <h3>{d.title}</h3>
+              {d.href ? <a href={d.href}>{d.value}</a> : <p>{d.value}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <form class="contact-form reveal" onsubmit="event.preventDefault(); this.reset(); document.getElementById('formNote').hidden=false;">
+        <span class="eyebrow">Get in Touch</span>
+        <h2>Let's talk about your project</h2>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project…" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+        <p id="formNote" class="form-note" hidden>Thanks! This is a demo form — reach me directly at andronasef@gmail.com.</p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem;
+  }
+  .info-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(26, 101, 252, 0.12);
+    color: var(--accent);
+  }
+  .info-icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+  .info h3 {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.02em;
+  }
+  .info a,
+  .info p {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 500;
+    transition: color 0.2s var(--ease);
+  }
+  .info a:hover {
+    color: var(--accent);
+  }
+
+  .contact-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .contact-form h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    margin-bottom: 1.75rem;
+  }
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  .field label {
+    display: block;
+    color: var(--muted-2);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .field textarea {
+    resize: vertical;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #6a6a6a;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(26, 101, 252, 0.2);
+  }
+  .contact-form .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .form-note {
+    margin: 1rem 0 0;
+    color: #7bd88f;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

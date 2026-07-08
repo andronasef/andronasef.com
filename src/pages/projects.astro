@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects.js';
+---
+
+<Base title="Projects — Andrew Nasef" description="Selected web development projects by Andrew Nasef.">
+  <PageHeader title="Projects" crumb="Projects" />
+
+  <section>
+    <div class="container">
+      <div class="project-grid">
+        {projects.map((p) => <ProjectCard {...p} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+  }
+</style>

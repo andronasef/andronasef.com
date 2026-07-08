@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Andrew Nasef — Web Developer',
+  description = "I'm a Web Developer with +2 years experience, passionate and dedicated to my work.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: var(--z-menu);
+        background: var(--accent);
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0 0 8px 0;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+    </style>
+
+    <script>
+      // Mark JS active so the reveal's hidden initial state applies only here.
+      document.documentElement.classList.add('js');
+
+      const els = Array.from(document.querySelectorAll('.reveal'));
+      const revealAll = () => els.forEach((el) => el.classList.add('in'));
+
+      if (!('IntersectionObserver' in window)) {
+        revealAll();
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+        // Failsafe: guarantee content shows even if the observer never fires
+        // (background/hidden tabs, headless renderers, fast scrolls).
+        setTimeout(revealAll, 1000);
+      }
+    </script>
+  </body>
+</html>

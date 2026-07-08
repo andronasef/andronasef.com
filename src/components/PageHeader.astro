@@ -1,0 +1,63 @@
+---
+interface Props {
+  title: string;
+  crumb: string;
+}
+const { title, crumb } = Astro.props;
+---
+
+<section class="page-header">
+  <div class="container">
+    <nav class="crumbs reveal" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>{crumb}</span>
+    </nav>
+    <h1 class="reveal">{title}</h1>
+  </div>
+  <div class="ph-glow" aria-hidden="true"></div>
+</section>
+
+<style>
+  .page-header {
+    position: relative;
+    text-align: center;
+    padding-block: clamp(3rem, 7vw, 5rem);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .crumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .crumbs a {
+    transition: color 0.2s var(--ease);
+  }
+  .crumbs a:hover {
+    color: var(--accent);
+  }
+  .page-header h1 {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .ph-glow {
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(640px, 90vw);
+    height: 400px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(26, 101, 252, 0.16),
+      transparent 62%
+    );
+    filter: blur(20px);
+    pointer-events: none;
+  }
+</style>

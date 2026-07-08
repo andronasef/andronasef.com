@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const reasons = [
+  {
+    n: '#1',
+    title: 'Proven Expertise',
+    desc: 'Delivering top-notch websites with a track record of success.',
+  },
+  {
+    n: '#2',
+    title: 'Timely Delivery',
+    desc: 'Meeting deadlines with precision to launch your project on schedule.',
+  },
+  {
+    n: '#3',
+    title: 'Post-Launch Support',
+    desc: 'Providing ongoing support and maintenance to keep your website in prime condition.',
+  },
+  {
+    n: '#4',
+    title: 'Client Testimonials',
+    desc: 'Hear from satisfied clients who have benefited from my expertise and professionalism.',
+  },
+];
+---
+
+<Base title="About — Andrew Nasef" description="Andrew Nasef — computer science student and passionate freelance web developer.">
+  <PageHeader title="About" crumb="About" />
+
+  <section class="intro">
+    <div class="container intro-grid">
+      <div class="reveal">
+        <span class="eyebrow">About me</span>
+        <h2>Hi there! I'm Andrew Nasef</h2>
+      </div>
+      <div class="intro-body reveal">
+        <p>
+          A computer science student and passionate freelancer ready to bring
+          your digital dreams to life. With years of experience in web design, I
+          specialize in creating custom full-stack websites that not only look
+          stunning but also drive results. Whether it's a sleek corporate site
+          or a dynamic WordPress platform, I can handle it all.
+        </p>
+        <p>
+          Digital technologies have always fascinated me, especially their
+          transformative power for businesses and startups. Exploring emerging
+          trends and innovative solutions within the digital realm is my
+          passion, keeping me at the forefront of this ever-evolving industry.
+        </p>
+        <p>
+          Creativity, keen attention to detail, and strong problem-solving
+          skills are some of the qualities that set me apart. I thrive on turning
+          complex ideas into user-friendly interfaces that captivate and engage
+          audiences.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reasons">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Reasons I Excel</span>
+        <h2>Why choose me?</h2>
+      </div>
+      <div class="reasons-grid">
+        {reasons.map((r) => (
+          <div class="reason reveal">
+            <span class="reason-n">{r.n}</span>
+            <h3>{r.title}</h3>
+            <p>{r.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <div class="container">
+      <div class="about-cta-inner reveal">
+        <h2>Let's work together</h2>
+        <p>Have a project in mind? I'd love to hear about it.</p>
+        <a href="/contact" class="btn btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .intro-grid h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  .intro-body p {
+    color: var(--muted-2);
+    margin: 0 0 1.25rem;
+    max-width: 68ch;
+  }
+  .intro-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .reasons {
+    background: var(--surface);
+    border-block: 1px solid var(--border);
+  }
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  .reason {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.85rem 1.6rem;
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .reason:hover {
+    transform: translateY(-4px);
+    border-color: #3a3a3a;
+  }
+  .reason-n {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.85rem;
+  }
+  .reason h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .reason p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .about-cta-inner {
+    text-align: center;
+    background: linear-gradient(135deg, var(--surface), #191919);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(2.5rem, 6vw, 4rem);
+  }
+  .about-cta-inner h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  .about-cta-inner p {
+    color: var(--muted);
+    margin: 0 0 1.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

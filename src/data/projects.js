@@ -1,0 +1,73 @@
+// Project list mirrored from andronasef.site. Homepage shows the first 6.
+export const projects = [
+  {
+    title: 'FAJR – Premium Egyptian Leather Goods E-Commerce Platform',
+    img: '/assets/projects/fajr.webp',
+    type: 'Ecommerce Stores',
+    tech: 'WordPress',
+    href: 'https://andronasef.site/fajr-premium-egyptian-leather-goods-e-commerce-platform/',
+  },
+  {
+    title: 'AMA Investors – Corporate Investment Portfolio Website',
+    img: '/assets/projects/ama.webp',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: 'https://andronasef.site/ama-investors-website/',
+  },
+  {
+    title: 'Tharaa – Luxury Abaya E-Commerce Store',
+    img: '/assets/projects/tharaa.jpg',
+    type: 'Ecommerce Stores',
+    tech: 'Salla',
+    href: 'https://andronasef.site/tharaa-luxury-abaya-e-commerce-store/',
+  },
+  {
+    title: 'Rawand Printers – E-commerce Blog Design',
+    img: '/assets/projects/rawand.png',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: 'https://andronasef.site/rawand-printers-e-commerce-blog-design/',
+  },
+  {
+    title: 'Pcabins – Portable House Factory E-commerce Website',
+    img: '/assets/projects/pcabins.png',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: 'https://andronasef.site/pcabins-portable-house-factory-e-commerce-website/',
+  },
+  {
+    title: 'Mustard Seed Project – Egyptian NGO Website',
+    img: '/assets/projects/mustard.webp',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: 'https://andronasef.site/mustard-seed-project-ngo-website/',
+  },
+  {
+    title: 'Diraks – Premium Fresh Seafood Delivery',
+    img: '/assets/projects/diraks.png',
+    type: 'Ecommerce Stores',
+    tech: 'Salla',
+    href: '#',
+  },
+  {
+    title: 'Najmat Al Diwan – Saudi Arabian construction company',
+    img: '/assets/projects/najmat.png',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: '#',
+  },
+  {
+    title: "Designer's Vision – Saudi Interior Design and General Contracting Company",
+    img: '/assets/projects/designers-vision.webp',
+    type: 'Branding Websites',
+    tech: 'WordPress',
+    href: '#',
+  },
+  {
+    title: 'My Personal Portfolio Website',
+    img: '/assets/projects/portfolio.png',
+    type: 'Branding Websites',
+    tech: '',
+    href: '#',
+  },
+];
