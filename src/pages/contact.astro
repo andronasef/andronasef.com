@@ -41,24 +41,20 @@ const details = [
         ))}
       </div>
 
-      <form class="contact-form reveal" onsubmit="event.preventDefault(); this.reset(); document.getElementById('formNote').hidden=false;">
+      <div class="contact-form reveal">
         <span class="eyebrow">Get in Touch</span>
         <h2>Let's talk about your project</h2>
-        <div class="field">
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Your name" required />
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com" required />
-        </div>
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project…" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-        <p id="formNote" class="form-note" hidden>Thanks! This is a demo form — reach me directly at andronasef@gmail.com.</p>
-      </form>
+        <iframe
+          data-tally-src="https://tally.so/embed/wbLZl1?alignLeft=1&hideTitle=1&dynamicHeight=1&originPage=%2Fcontact%2F"
+          loading="lazy"
+          width="100%"
+          height="480"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="Contact form"
+        ></iframe>
+      </div>
     </div>
   </section>
 </Base>
@@ -124,57 +120,51 @@ const details = [
   }
   .contact-form h2 {
     font-size: clamp(1.6rem, 3.5vw, 2.1rem);
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
   }
-  .field {
-    margin-bottom: 1.25rem;
-  }
-  .field label {
-    display: block;
-    color: var(--muted-2);
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-  .field input,
-  .field textarea {
+  .contact-form iframe {
     width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.85rem 1rem;
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    border: 0;
+    color-scheme: normal;
   }
-  .field textarea {
-    resize: vertical;
-  }
-  .field input::placeholder,
-  .field textarea::placeholder {
-    color: #6a6a6a;
-  }
-  .field input:focus,
-  .field textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(26, 101, 252, 0.2);
-  }
-  .contact-form .btn {
-    width: 100%;
-    justify-content: center;
-  }
-  .form-note {
-    margin: 1rem 0 0;
-    color: #7bd88f;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
   @media (max-width: 720px) {
     .contact-grid {
       grid-template-columns: 1fr;
     }
   }
 </style>
+
+<script>
+  // Load Tally's embed script once, then (re)initialize iframes on every
+  // page-load so the dynamic-height form works after soft navigation too.
+  const SRC = 'https://tally.so/widgets/embed.js';
+
+  function loadEmbeds() {
+    // @ts-ignore - Tally is injected by the external script
+    if (typeof Tally !== 'undefined') {
+      // @ts-ignore
+      Tally.loadEmbeds();
+      return;
+    }
+    // Fallback: set src directly if the script hasn't defined Tally yet.
+    document
+      .querySelectorAll<HTMLIFrameElement>('iframe[data-tally-src]')
+      .forEach((el) => {
+        if (!el.src) el.src = el.dataset.tallySrc!;
+      });
+  }
+
+  function ensureTally() {
+    if (!document.querySelector(`script[src="${SRC}"]`)) {
+      const s = document.createElement('script');
+      s.src = SRC;
+      s.onload = loadEmbeds;
+      s.onerror = loadEmbeds;
+      document.body.appendChild(s);
+    } else {
+      loadEmbeds();
+    }
+  }
+
+  document.addEventListener('astro:page-load', ensureTally);
+</script>
