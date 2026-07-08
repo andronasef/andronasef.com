@@ -44,16 +44,26 @@ const details = [
       <div class="contact-form reveal">
         <span class="eyebrow">Get in Touch</span>
         <h2>Let's talk about your project</h2>
-        <iframe
-          data-tally-src="https://tally.so/embed/wbLZl1?alignLeft=1&hideTitle=1&dynamicHeight=1&originPage=%2Fcontact%2F"
-          loading="lazy"
-          width="100%"
-          height="480"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Contact form"
-        ></iframe>
+        <div class="form-embed" id="formEmbed">
+          <div class="form-skeleton" aria-hidden="true">
+            <span class="sk sk-input"></span>
+            <span class="sk sk-input"></span>
+            <span class="sk sk-input"></span>
+            <span class="sk sk-textarea"></span>
+            <span class="sk sk-btn"></span>
+          </div>
+          <iframe
+            id="tallyFrame"
+            data-tally-src="https://tally.so/embed/wbLZl1?alignLeft=1&hideTitle=1&dynamicHeight=1&originPage=%2Fcontact%2F"
+            loading="lazy"
+            width="100%"
+            height="500"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Contact form"
+          ></iframe>
+        </div>
       </div>
     </div>
   </section>
@@ -122,10 +132,69 @@ const details = [
     font-size: clamp(1.6rem, 3.5vw, 2.1rem);
     margin-bottom: 1.5rem;
   }
-  .contact-form iframe {
+  /* Reserve space so the Tally form loading doesn't shift the page, and
+     show a skeleton until the iframe is ready. */
+  .form-embed {
+    position: relative;
+    min-height: 540px;
+  }
+  .form-embed iframe {
     width: 100%;
     border: 0;
     color-scheme: normal;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+  .form-embed.loaded iframe {
+    opacity: 1;
+  }
+  .form-skeleton {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    pointer-events: none;
+    transition: opacity 0.35s var(--ease);
+  }
+  .form-embed.loaded .form-skeleton {
+    opacity: 0;
+  }
+  .sk {
+    display: block;
+    border-radius: 10px;
+    background: linear-gradient(
+      100deg,
+      var(--surface-2) 30%,
+      #303030 50%,
+      var(--surface-2) 70%
+    );
+    background-size: 200% 100%;
+    animation: sk-shimmer 1.4s ease-in-out infinite;
+  }
+  .sk-input {
+    height: 52px;
+  }
+  .sk-textarea {
+    height: 140px;
+  }
+  .sk-btn {
+    height: 48px;
+    width: 150px;
+    border-radius: 10px;
+  }
+  @keyframes sk-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sk {
+      animation: none;
+    }
   }
   @media (max-width: 720px) {
     .contact-grid {
@@ -154,7 +223,21 @@ const details = [
       });
   }
 
+  function reveal() {
+    document.getElementById('formEmbed')?.classList.add('loaded');
+  }
+
   function ensureTally() {
+    const frame = document.getElementById('tallyFrame') as HTMLIFrameElement | null;
+    const embed = document.getElementById('formEmbed');
+    if (frame && embed) {
+      embed.classList.remove('loaded');
+      // Reveal once the form iframe has loaded; fail-safe so it never stays
+      // stuck behind the skeleton.
+      frame.addEventListener('load', () => setTimeout(reveal, 250), { once: true });
+      setTimeout(reveal, 4000);
+    }
+
     if (!document.querySelector(`script[src="${SRC}"]`)) {
       const s = document.createElement('script');
       s.src = SRC;
