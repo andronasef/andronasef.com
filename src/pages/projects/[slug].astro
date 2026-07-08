@@ -1,0 +1,318 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { title, excerpt, type, tech, hero, cover, siteUrl } = entry.data;
+const { Content } = await render(entry);
+
+// Visit label from the title's leading brand word.
+const brand = title.split('–')[0].trim();
+
+// Related: same type first, then fill by order, excluding self.
+const all = (await getCollection('projects')).filter((p) => p.id !== entry.id);
+const related = [
+  ...all.filter((p) => p.data.type === type),
+  ...all.filter((p) => p.data.type !== type),
+]
+  .slice(0, 3)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const tags = [type, tech].filter(Boolean);
+---
+
+<Base title={`${title} — Andrew Nasef`} description={excerpt}>
+  <article class="detail">
+    <div class="detail-col">
+      <header class="detail-head">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a><span aria-hidden="true">/</span>
+          <a href="/projects/">Projects</a><span aria-hidden="true">/</span>
+          <span>{type}</span>
+        </nav>
+        <h1>{title}</h1>
+        <p class="lead">{excerpt}</p>
+        <div class="detail-tags">
+          {tags.map((t) => <span class="tag">{t}</span>)}
+        </div>
+      </header>
+
+      <div class="cover">
+        <img
+          src={hero ?? cover}
+          alt={title}
+          width="1200"
+          height="800"
+          transition:name={`cover-${entry.id}`}
+        />
+      </div>
+
+      <div class="prose reveal">
+        <Content />
+      </div>
+
+      {siteUrl && (
+        <div class="visit reveal">
+          <a href={siteUrl} class="btn btn-primary" target="_blank" rel="noopener">
+            Visit {brand}
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+          <a href="/projects/" class="btn btn-ghost">← All projects</a>
+        </div>
+      )}
+    </div>
+
+    {related.length > 0 && (
+      <section class="related">
+        <div class="container">
+          <h2 class="reveal">Related projects</h2>
+          <div class="related-grid">
+            {related.map((p) => (
+              <a href={`/projects/${p.id}/`} class="related-card reveal">
+                <div class="related-media">
+                  <img src={p.data.cover} alt={p.data.title} width="561" height="374" loading="lazy" />
+                </div>
+                <span class="related-type">{p.data.type}</span>
+                <h3>{p.data.title}</h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="cta">
+      <div class="container cta-inner reveal">
+        <div>
+          <span class="eyebrow">Get a Free Consultation</span>
+          <h2>Have a project like this in mind?</h2>
+          <p>Let's talk about your vision and bring it to reality together.</p>
+          <a href="/contact/" class="btn btn-primary">Let's Talk</a>
+        </div>
+        <img src="/assets/consultation.svg" alt="" width="360" height="360" loading="lazy" />
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .detail-col {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 2rem);
+  }
+  .detail-head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 0;
+  }
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .crumbs a {
+    transition: color 0.2s var(--ease);
+  }
+  .crumbs a:hover {
+    color: var(--accent);
+  }
+  .detail-head h1 {
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
+    letter-spacing: -0.03em;
+  }
+  .lead {
+    color: var(--muted-2);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    margin: 0.75rem 0 0;
+  }
+  .detail-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted-2);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+  }
+
+  .cover {
+    margin-top: clamp(1.75rem, 4vw, 2.75rem);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 3 / 2;
+  }
+  .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .prose {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    color: var(--muted-2);
+  }
+  .prose :global(h2) {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin: 2.25rem 0 0.9rem;
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(p) {
+    margin: 0 0 1.15rem;
+    line-height: 1.75;
+  }
+  .prose :global(ul) {
+    margin: 0 0 1.4rem;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .prose :global(li) {
+    position: relative;
+    padding-left: 1.6rem;
+    line-height: 1.65;
+  }
+  .prose :global(li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .prose :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose :global(blockquote) {
+    margin: 0 0 1.5rem;
+    padding: 0.9rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .visit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2.5rem;
+  }
+
+  .related {
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+  .related h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin-bottom: 1.75rem;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .related-card {
+    display: block;
+  }
+  .related-media {
+    overflow: hidden;
+    border-radius: var(--radius);
+    aspect-ratio: 3 / 2;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .related-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .related-card:hover .related-media img {
+    transform: scale(1.05);
+  }
+  .related-type {
+    display: inline-block;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin: 0.85rem 0 0.35rem;
+  }
+  .related-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    transition: color 0.2s var(--ease);
+  }
+  .related-card:hover h3 {
+    color: var(--accent);
+  }
+
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+    background: linear-gradient(135deg, var(--surface), #191919);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+  .cta-inner h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+  }
+  .cta-inner p {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+  .cta-inner img {
+    width: min(100%, 340px);
+    justify-self: center;
+  }
+
+  @media (max-width: 720px) {
+    .cta-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .cta-inner img {
+      order: -1;
+    }
+    .cta-inner p {
+      margin-inline: auto;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .related-card:hover .related-media img {
+      transform: none;
+    }
+  }
+</style>
