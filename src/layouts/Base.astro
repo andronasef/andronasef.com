@@ -28,6 +28,28 @@ const {
     <link rel="preload" href="/fonts/ClashDisplay-Semibold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ClashDisplay-Medium.woff2" as="font" type="font/woff2" crossorigin />
     <ClientRouter />
+    {import.meta.env.PROD && (
+      <>
+        {/* Google Analytics (GA4) */}
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-D08VV0R507"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          {/* Auto page_view off; fired manually on astro:page-load so SPA nav counts. */}
+          gtag('config', 'G-D08VV0R507', { send_page_view: false });
+        </script>
+
+        {/* Microsoft Clarity */}
+        <script is:inline>
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "xjilr51oo3");
+        </script>
+      </>
+    )}
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -130,6 +152,13 @@ const {
       document.addEventListener('astro:page-load', () => {
         initPage();
         revealPage();
+        // ponytail: manual GA page_view — ClientRouter nav doesn't reload the page
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'page_view', {
+            page_path: location.pathname + location.search,
+            page_title: document.title,
+          });
+        }
       });
     </script>
   </body>
