@@ -136,7 +136,12 @@ const details = [
      show a skeleton until the iframe is ready. */
   .form-embed {
     position: relative;
-    min-height: 540px;
+    min-height: 440px; /* reserve room for the skeleton, avoiding load CLS */
+  }
+  /* Once loaded, fit the actual (dynamic-height) form so there's no dead space
+     below it on shorter viewports. */
+  .form-embed.loaded {
+    min-height: 0;
   }
   .form-embed iframe {
     width: 100%;
