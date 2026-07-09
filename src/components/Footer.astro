@@ -55,7 +55,7 @@ const icons: Record<string, string> = {
   </div>
 
   <div class="container footer-bottom">
-    <p>Andrew Nasef Copyright © 2025</p>
+    <p>Andrew Nasef Copyright © <span id="copyYear">{new Date().getFullYear()}</span></p>
   </div>
 </footer>
 
@@ -146,3 +146,13 @@ const icons: Record<string, string> = {
     }
   }
 </style>
+
+<script>
+  // Keep the copyright year current client-side (build-time value is the
+  // fallback). Runs on first load and after every ClientRouter navigation.
+  function setYear() {
+    const el = document.getElementById('copyYear');
+    if (el) el.textContent = String(new Date().getFullYear());
+  }
+  document.addEventListener('astro:page-load', setYear);
+</script>
