@@ -361,7 +361,8 @@ const stats = [
   /* SERVICES */
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* 3-up or single column — never a cramped 2-col with an orphaned 3rd card. */
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
   }
   .service {
@@ -523,6 +524,11 @@ const stats = [
     height: auto;
   }
 
+  @media (max-width: 860px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   @media (max-width: 720px) {
     .stats-grid {
       grid-template-columns: 1fr;
