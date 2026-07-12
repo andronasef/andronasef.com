@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-// ponytail: static portfolio, no integrations needed
 export default defineConfig({
   site: 'https://andronasef.site',
+  integrations: [sitemap()],
 });
