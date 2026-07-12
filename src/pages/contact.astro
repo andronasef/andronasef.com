@@ -1,258 +1,270 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
 
 const details = [
-  {
-    title: 'Physical Address',
-    value: 'Cairo, Egypt',
-    href: null,
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
-  },
-  {
-    title: 'Email Address',
-    value: 'andronasef@gmail.com',
-    href: 'mailto:andronasef@gmail.com',
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>',
-  },
-  {
-    title: 'Phone Number',
-    value: '(+20) 100 435 9533',
-    href: 'tel:+201004359533',
-    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
-  },
+    {
+        title: "Physical Address",
+        value: "Cairo, Egypt",
+        href: null,
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    },
+    {
+        title: "Email Address",
+        value: "hello@andronasef.com",
+        href: "mailto:hello@andronasef.com",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>',
+    },
+    {
+        title: "Phone Number",
+        value: "(+20) 100 435 9533",
+        href: "tel:+201004359533",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+    },
 ];
 ---
 
-<Base title="Contact — Andrew Nasef" description="Let's talk about your project. Get in touch with Andrew Nasef.">
-  <PageHeader title="Contact" crumb="Contact" />
+<Base
+    title="Contact — Andrew Nasef"
+    description="Let's talk about your project. Get in touch with Andrew Nasef."
+>
+    <PageHeader title="Contact" crumb="Contact" />
 
-  <section>
-    <div class="container contact-grid">
-      <div class="contact-info">
-        {details.map((d) => (
-          <div class="info reveal">
-            <div class="info-icon" set:html={d.icon} />
-            <div>
-              <h3>{d.title}</h3>
-              {d.href ? <a href={d.href}>{d.value}</a> : <p>{d.value}</p>}
+    <section>
+        <div class="container contact-grid">
+            <div class="contact-info">
+                {
+                    details.map((d) => (
+                        <div class="info reveal">
+                            <div class="info-icon" set:html={d.icon} />
+                            <div>
+                                <h3>{d.title}</h3>
+                                {d.href ? (
+                                    <a href={d.href}>{d.value}</a>
+                                ) : (
+                                    <p>{d.value}</p>
+                                )}
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
-          </div>
-        ))}
-      </div>
 
-      <div class="contact-form reveal">
-        <span class="eyebrow">Get in Touch</span>
-        <h2>Let's talk about your project</h2>
-        <div class="form-embed" id="formEmbed">
-          <div class="form-skeleton" aria-hidden="true">
-            <span class="sk sk-input"></span>
-            <span class="sk sk-input"></span>
-            <span class="sk sk-input"></span>
-            <span class="sk sk-textarea"></span>
-            <span class="sk sk-btn"></span>
-          </div>
-          <iframe
-            id="tallyFrame"
-            data-tally-src="https://tally.so/embed/wbLZl1?alignLeft=1&hideTitle=1&dynamicHeight=1&originPage=%2Fcontact%2F"
-            loading="lazy"
-            width="100%"
-            height="500"
-            frameborder="0"
-            marginheight="0"
-            marginwidth="0"
-            title="Contact form"
-          ></iframe>
+            <div class="contact-form reveal">
+                <span class="eyebrow">Get in Touch</span>
+                <h2>Let's talk about your project</h2>
+                <div class="form-embed" id="formEmbed">
+                    <div class="form-skeleton" aria-hidden="true">
+                        <span class="sk sk-input"></span>
+                        <span class="sk sk-input"></span>
+                        <span class="sk sk-input"></span>
+                        <span class="sk sk-textarea"></span>
+                        <span class="sk sk-btn"></span>
+                    </div>
+                    <iframe
+                        id="tallyFrame"
+                        data-tally-src="https://tally.so/embed/wbLZl1?alignLeft=1&hideTitle=1&dynamicHeight=1&originPage=%2Fcontact%2F"
+                        loading="lazy"
+                        width="100%"
+                        height="500"
+                        frameborder="0"
+                        marginheight="0"
+                        marginwidth="0"
+                        title="Contact form"></iframe>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </Base>
 
 <style>
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
-  }
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .info {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.4rem 1.5rem;
-  }
-  .info-icon {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(26, 101, 252, 0.12);
-    color: var(--accent);
-  }
-  .info-icon :global(svg) {
-    width: 22px;
-    height: 22px;
-  }
-  .info h3 {
-    font-size: 0.9rem;
-    color: var(--muted);
-    font-weight: 600;
-    margin: 0 0 0.2rem;
-    letter-spacing: 0.02em;
-  }
-  .info a,
-  .info p {
-    margin: 0;
-    color: var(--ink);
-    font-weight: 500;
-    transition: color 0.2s var(--ease);
-  }
-  .info a:hover {
-    color: var(--accent);
-  }
-
-  .contact-form {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: clamp(1.75rem, 4vw, 2.75rem);
-  }
-  .contact-form h2 {
-    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
-    margin-bottom: 1.5rem;
-  }
-  /* Reserve space so the Tally form loading doesn't shift the page, and
-     show a skeleton until the iframe is ready. */
-  .form-embed {
-    position: relative;
-    min-height: 440px; /* reserve room for the skeleton, avoiding load CLS */
-  }
-  /* Once loaded, fit the actual (dynamic-height) form so there's no dead space
-     below it on shorter viewports. */
-  .form-embed.loaded {
-    min-height: 0;
-  }
-  .form-embed iframe {
-    width: 100%;
-    border: 0;
-    color-scheme: normal;
-    opacity: 0;
-    transition: opacity 0.4s var(--ease);
-  }
-  .form-embed.loaded iframe {
-    opacity: 1;
-  }
-  .form-skeleton {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.15rem;
-    pointer-events: none;
-    transition: opacity 0.35s var(--ease);
-  }
-  .form-embed.loaded .form-skeleton {
-    opacity: 0;
-  }
-  .sk {
-    display: block;
-    border-radius: 10px;
-    background: linear-gradient(
-      100deg,
-      var(--surface-2) 30%,
-      #303030 50%,
-      var(--surface-2) 70%
-    );
-    background-size: 200% 100%;
-    animation: sk-shimmer 1.4s ease-in-out infinite;
-  }
-  .sk-input {
-    height: 52px;
-  }
-  .sk-textarea {
-    height: 140px;
-  }
-  .sk-btn {
-    height: 48px;
-    width: 150px;
-    border-radius: 10px;
-  }
-  @keyframes sk-shimmer {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .sk {
-      animation: none;
-    }
-  }
-  @media (max-width: 720px) {
     .contact-grid {
-      grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: clamp(2rem, 5vw, 4rem);
+        align-items: start;
     }
-  }
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .info {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.4rem 1.5rem;
+    }
+    .info-icon {
+        display: grid;
+        place-items: center;
+        flex: none;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(26, 101, 252, 0.12);
+        color: var(--accent);
+    }
+    .info-icon :global(svg) {
+        width: 22px;
+        height: 22px;
+    }
+    .info h3 {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+        margin: 0 0 0.2rem;
+        letter-spacing: 0.02em;
+    }
+    .info a,
+    .info p {
+        margin: 0;
+        color: var(--ink);
+        font-weight: 500;
+        transition: color 0.2s var(--ease);
+    }
+    .info a:hover {
+        color: var(--accent);
+    }
+
+    .contact-form {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: clamp(1.75rem, 4vw, 2.75rem);
+    }
+    .contact-form h2 {
+        font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+        margin-bottom: 1.5rem;
+    }
+    /* Reserve space so the Tally form loading doesn't shift the page, and
+     show a skeleton until the iframe is ready. */
+    .form-embed {
+        position: relative;
+        min-height: 440px; /* reserve room for the skeleton, avoiding load CLS */
+    }
+    /* Once loaded, fit the actual (dynamic-height) form so there's no dead space
+     below it on shorter viewports. */
+    .form-embed.loaded {
+        min-height: 0;
+    }
+    .form-embed iframe {
+        width: 100%;
+        border: 0;
+        color-scheme: normal;
+        opacity: 0;
+        transition: opacity 0.4s var(--ease);
+    }
+    .form-embed.loaded iframe {
+        opacity: 1;
+    }
+    .form-skeleton {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.15rem;
+        pointer-events: none;
+        transition: opacity 0.35s var(--ease);
+    }
+    .form-embed.loaded .form-skeleton {
+        opacity: 0;
+    }
+    .sk {
+        display: block;
+        border-radius: 10px;
+        background: linear-gradient(
+            100deg,
+            var(--surface-2) 30%,
+            #303030 50%,
+            var(--surface-2) 70%
+        );
+        background-size: 200% 100%;
+        animation: sk-shimmer 1.4s ease-in-out infinite;
+    }
+    .sk-input {
+        height: 52px;
+    }
+    .sk-textarea {
+        height: 140px;
+    }
+    .sk-btn {
+        height: 48px;
+        width: 150px;
+        border-radius: 10px;
+    }
+    @keyframes sk-shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .sk {
+            animation: none;
+        }
+    }
+    @media (max-width: 720px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 <script>
-  // Load Tally's embed script once, then (re)initialize iframes on every
-  // page-load so the dynamic-height form works after soft navigation too.
-  const SRC = 'https://tally.so/widgets/embed.js';
+    // Load Tally's embed script once, then (re)initialize iframes on every
+    // page-load so the dynamic-height form works after soft navigation too.
+    const SRC = "https://tally.so/widgets/embed.js";
 
-  function loadEmbeds() {
-    // @ts-ignore - Tally is injected by the external script
-    if (typeof Tally !== 'undefined') {
-      // @ts-ignore
-      Tally.loadEmbeds();
-      return;
-    }
-    // Fallback: set src directly if the script hasn't defined Tally yet.
-    document
-      .querySelectorAll<HTMLIFrameElement>('iframe[data-tally-src]')
-      .forEach((el) => {
-        if (!el.src) el.src = el.dataset.tallySrc!;
-      });
-  }
-
-  function reveal() {
-    document.getElementById('formEmbed')?.classList.add('loaded');
-  }
-
-  function ensureTally() {
-    const frame = document.getElementById('tallyFrame') as HTMLIFrameElement | null;
-    const embed = document.getElementById('formEmbed');
-    if (frame && embed) {
-      embed.classList.remove('loaded');
-      // Reveal once the form iframe has loaded; fail-safe so it never stays
-      // stuck behind the skeleton.
-      frame.addEventListener('load', () => setTimeout(reveal, 250), { once: true });
-      setTimeout(reveal, 4000);
+    function loadEmbeds() {
+        // @ts-ignore - Tally is injected by the external script
+        if (typeof Tally !== "undefined") {
+            // @ts-ignore
+            Tally.loadEmbeds();
+            return;
+        }
+        // Fallback: set src directly if the script hasn't defined Tally yet.
+        document
+            .querySelectorAll<HTMLIFrameElement>("iframe[data-tally-src]")
+            .forEach((el) => {
+                if (!el.src) el.src = el.dataset.tallySrc!;
+            });
     }
 
-    if (!document.querySelector(`script[src="${SRC}"]`)) {
-      const s = document.createElement('script');
-      s.src = SRC;
-      s.onload = loadEmbeds;
-      s.onerror = loadEmbeds;
-      document.body.appendChild(s);
-    } else {
-      loadEmbeds();
+    function reveal() {
+        document.getElementById("formEmbed")?.classList.add("loaded");
     }
-  }
 
-  document.addEventListener('astro:page-load', ensureTally);
+    function ensureTally() {
+        const frame = document.getElementById(
+            "tallyFrame",
+        ) as HTMLIFrameElement | null;
+        const embed = document.getElementById("formEmbed");
+        if (frame && embed) {
+            embed.classList.remove("loaded");
+            // Reveal once the form iframe has loaded; fail-safe so it never stays
+            // stuck behind the skeleton.
+            frame.addEventListener("load", () => setTimeout(reveal, 250), {
+                once: true,
+            });
+            setTimeout(reveal, 4000);
+        }
+
+        if (!document.querySelector(`script[src="${SRC}"]`)) {
+            const s = document.createElement("script");
+            s.src = SRC;
+            s.onload = loadEmbeds;
+            s.onerror = loadEmbeds;
+            document.body.appendChild(s);
+        } else {
+            loadEmbeds();
+        }
+    }
+
+    document.addEventListener("astro:page-load", ensureTally);
 </script>
