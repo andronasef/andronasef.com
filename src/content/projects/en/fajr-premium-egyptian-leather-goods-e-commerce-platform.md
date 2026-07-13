@@ -5,6 +5,10 @@ type: Ecommerce Stores
 tech: WordPress
 cover: /assets/projects/fajr.webp
 hero: /assets/projects/full/fajr.webp
+screenshots:
+  - /assets/projects/screenshots/fajr-1.webp
+  - /assets/projects/screenshots/fajr-2.webp
+  - /assets/projects/screenshots/fajr-3.webp
 order: 1
 featured: true
 siteUrl: https://andronasef.github.io/links/18

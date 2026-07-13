@@ -5,6 +5,10 @@ type: Branding Websites
 tech: WordPress
 cover: /assets/projects/pcabins.png
 hero: /assets/projects/full/pcabins.png
+screenshots:
+  - /assets/projects/screenshots/pcabins-1.jpg
+  - /assets/projects/screenshots/pcabins-2.jpg
+  - /assets/projects/screenshots/pcabins-3.jpg
 order: 5
 featured: true
 siteUrl: https://andronasef.github.io/links/12

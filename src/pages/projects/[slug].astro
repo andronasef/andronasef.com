@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { title, excerpt, type, tech, hero, cover, siteUrl } = entry.data;
+const { title, excerpt, type, tech, hero, cover, siteUrl, screenshots } = entry.data;
 const { Content } = await render(entry);
 
 // Visit label from the title's leading brand word.
@@ -48,6 +48,27 @@ const tags = [type, tech].filter(Boolean);
       <div class="cover">
         <img src={hero ?? cover} alt={title} width="1200" height="800" />
       </div>
+
+      {screenshots.length > 0 && (
+        <div class="screenshots reveal" data-carousel>
+          <div class="shots-track">
+            {screenshots.map((src) => (
+              <img src={src} alt={`${title} screenshot`} width="1414" height="795" loading="lazy" />
+            ))}
+          </div>
+          {screenshots.length > 1 && (
+            <>
+              <button class="shots-nav prev" type="button" aria-label="Previous screenshot">‹</button>
+              <button class="shots-nav next" type="button" aria-label="Next screenshot">›</button>
+              <div class="shots-dots">
+                {screenshots.map((_, i) => (
+                  <button class="shots-dot" type="button" data-index={i} aria-label={`Go to screenshot ${i + 1}`}></button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       <div class="prose reveal">
         <Content />
@@ -157,6 +178,71 @@ const tags = [type, tech].filter(Boolean);
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .screenshots {
+    position: relative;
+    margin-top: clamp(2rem, 5vw, 3rem);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .shots-track {
+    display: flex;
+    transition: transform 0.5s var(--ease);
+  }
+  .shots-track img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .shots-nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.2s var(--ease);
+  }
+  .shots-nav:hover {
+    background: var(--accent);
+  }
+  .shots-nav.prev {
+    left: 12px;
+  }
+  .shots-nav.next {
+    right: 12px;
+  }
+  .shots-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    gap: 6px;
+  }
+  .shots-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: background 0.2s var(--ease);
+  }
+  .shots-dot.active {
+    background: var(--accent);
   }
 
   .prose {
@@ -310,3 +396,41 @@ const tags = [type, tech].filter(Boolean);
     }
   }
 </style>
+
+<script>
+  // Page re-renders per soft nav; module scope persists, so track + clear our
+  // own interval instead of relying on the element (which gets swapped out).
+  let timer: ReturnType<typeof setInterval> | undefined;
+
+  function wireCarousel() {
+    clearInterval(timer);
+    const root = document.querySelector<HTMLElement>('[data-carousel]');
+    const track = root?.querySelector<HTMLElement>('.shots-track');
+    const slides = root?.querySelectorAll<HTMLElement>('.shots-track img');
+    if (!root || !track || !slides || slides.length < 2) return;
+
+    const dots = root.querySelectorAll<HTMLButtonElement>('.shots-dot');
+    let index = 0;
+
+    const go = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, di) => d.classList.toggle('active', di === index));
+    };
+    const restart = () => {
+      clearInterval(timer);
+      timer = setInterval(() => go(index + 1), 4000);
+    };
+
+    root.querySelector('.shots-nav.prev')?.addEventListener('click', () => { go(index - 1); restart(); });
+    root.querySelector('.shots-nav.next')?.addEventListener('click', () => { go(index + 1); restart(); });
+    dots.forEach((d, di) => d.addEventListener('click', () => { go(di); restart(); }));
+    root.addEventListener('mouseenter', () => clearInterval(timer));
+    root.addEventListener('mouseleave', restart);
+
+    go(0);
+    restart();
+  }
+
+  document.addEventListener('astro:page-load', wireCarousel);
+</script>

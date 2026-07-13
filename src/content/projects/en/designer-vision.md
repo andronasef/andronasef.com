@@ -5,6 +5,10 @@ type: Branding Websites
 tech: WordPress
 cover: /assets/projects/designers-vision.webp
 hero: /assets/projects/full/designers-vision.webp
+screenshots:
+  - /assets/projects/screenshots/designer-1.png
+  - /assets/projects/screenshots/designer-2.png
+  - /assets/projects/screenshots/designer-3.png
 order: 9
 featured: false
 siteUrl: https://andronasef.github.io/links/6

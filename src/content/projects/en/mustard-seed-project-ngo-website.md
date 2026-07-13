@@ -5,6 +5,10 @@ type: Branding Websites
 tech: WordPress
 cover: /assets/projects/mustard.webp
 hero: /assets/projects/full/mustard.webp
+screenshots:
+  - /assets/projects/screenshots/mustard-1.webp
+  - /assets/projects/screenshots/mustard-2.webp
+  - /assets/projects/screenshots/mustard-3.webp
 order: 6
 featured: true
 siteUrl: https://andronasef.github.io/links/16

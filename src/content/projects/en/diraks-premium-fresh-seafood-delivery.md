@@ -5,6 +5,10 @@ type: Ecommerce Stores
 tech: Salla
 cover: /assets/projects/diraks.png
 hero: /assets/projects/full/diraks.png
+screenshots:
+  - /assets/projects/screenshots/diraks-1.webp
+  - /assets/projects/screenshots/diraks-2.webp
+  - /assets/projects/screenshots/diraks-3.webp
 order: 7
 featured: false
 siteUrl: https://andronasef.github.io/links/14

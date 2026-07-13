@@ -5,6 +5,9 @@ type: Branding Websites
 tech: WordPress
 cover: /assets/projects/rawand.png
 hero: /assets/projects/full/rawand.png
+screenshots:
+  - /assets/projects/screenshots/rawand-1.jpg
+  - /assets/projects/screenshots/rawand-2.jpg
 order: 4
 featured: true
 siteUrl: https://andronasef.github.io/links/11

@@ -5,6 +5,10 @@ type: Ecommerce Stores
 tech: Salla
 cover: /assets/projects/tharaa.jpg
 hero: /assets/projects/full/tharaa.jpg
+screenshots:
+  - /assets/projects/screenshots/tharaa-1.webp
+  - /assets/projects/screenshots/tharaa-2.webp
+  - /assets/projects/screenshots/tharaa-3.webp
 order: 3
 featured: true
 siteUrl: https://tharaa-sa.com/

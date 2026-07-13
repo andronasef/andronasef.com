@@ -5,6 +5,10 @@ type: Branding Websites
 tech: WordPress
 cover: /assets/projects/najmat.png
 hero: /assets/projects/full/najmat.png
+screenshots:
+  - /assets/projects/screenshots/najmat-1.webp
+  - /assets/projects/screenshots/najmat-2.webp
+  - /assets/projects/screenshots/najmat-3.webp
 order: 8
 featured: false
 siteUrl: https://andronasef.github.io/links/15

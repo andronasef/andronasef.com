@@ -12,6 +12,7 @@ const projects = defineCollection({
     tech: z.string().optional().default(''),
     cover: z.string(), // /assets/projects/<slug>.<ext>
     hero: z.string().optional(), // full-res detail hero
+    screenshots: z.array(z.string()).optional().default([]), // site screenshots gallery
     order: z.number(),
     featured: z.boolean().default(false),
     siteUrl: z.string().optional(), // external "Visit" link
