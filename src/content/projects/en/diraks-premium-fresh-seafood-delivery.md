@@ -11,7 +11,6 @@ screenshots:
   - /assets/projects/screenshots/diraks-3.webp
 order: 7
 featured: false
-siteUrl: https://andronasef.github.io/links/14
 ---
 
 ## Project Overview

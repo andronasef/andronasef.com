@@ -11,7 +11,6 @@ screenshots:
   - /assets/projects/screenshots/najmat-3.webp
 order: 8
 featured: false
-siteUrl: https://andronasef.github.io/links/15
 ---
 
 ## Project Overview

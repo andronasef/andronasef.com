@@ -11,7 +11,6 @@ screenshots:
   - /assets/projects/screenshots/mustard-3.webp
 order: 3
 featured: true
-siteUrl: https://andronasef.github.io/links/16
 ---
 
 ## Project Overview

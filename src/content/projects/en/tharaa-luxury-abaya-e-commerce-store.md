@@ -11,7 +11,6 @@ screenshots:
   - /assets/projects/screenshots/tharaa-3.webp
 order: 6
 featured: true
-siteUrl: https://tharaa-sa.com/
 ---
 
 ## Project Overview

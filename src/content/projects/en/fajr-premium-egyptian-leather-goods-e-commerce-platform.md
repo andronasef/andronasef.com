@@ -11,7 +11,6 @@ screenshots:
   - /assets/projects/screenshots/fajr-3.webp
 order: 4
 featured: true
-siteUrl: https://andronasef.github.io/links/18
 ---
 
 ## Project Overview
