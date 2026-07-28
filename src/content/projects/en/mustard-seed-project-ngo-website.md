@@ -9,7 +9,7 @@ screenshots:
   - /assets/projects/screenshots/mustard-1.webp
   - /assets/projects/screenshots/mustard-2.webp
   - /assets/projects/screenshots/mustard-3.webp
-order: 6
+order: 3
 featured: true
 siteUrl: https://andronasef.github.io/links/16
 ---

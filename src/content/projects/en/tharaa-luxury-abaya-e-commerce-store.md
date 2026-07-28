@@ -9,7 +9,7 @@ screenshots:
   - /assets/projects/screenshots/tharaa-1.webp
   - /assets/projects/screenshots/tharaa-2.webp
   - /assets/projects/screenshots/tharaa-3.webp
-order: 3
+order: 6
 featured: true
 siteUrl: https://tharaa-sa.com/
 ---

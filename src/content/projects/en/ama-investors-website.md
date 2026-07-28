@@ -9,7 +9,7 @@ screenshots:
   - /assets/projects/screenshots/ama-1.webp
   - /assets/projects/screenshots/ama-2.webp
   - /assets/projects/screenshots/ama-3.webp
-order: 2
+order: 5
 featured: true
 siteUrl: https://andronasef.github.io/links/17
 ---
