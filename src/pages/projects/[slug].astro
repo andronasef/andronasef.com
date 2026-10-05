@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { title, excerpt, type, tech, hero, cover, siteUrl, screenshots } = entry.data;
+const { title, excerpt, type, tech, hero, cover, siteUrl, screenshots, mobileShots } = entry.data;
 const { Content } = await render(entry);
 
 // Visit label from the title's leading brand word.
@@ -45,12 +45,18 @@ const tags = [type, tech].filter(Boolean);
         </div>
       </header>
 
-      <div class="cover">
+      <div class={mobileShots.length ? "cover wide" : "cover"}>
         <img src={hero ?? cover} alt={title} width="1200" height="800" />
       </div>
 
+      {mobileShots.length > 0 && (
+        <div class="mobile-shots">
+          {mobileShots.map((src) => <img src={src} alt={`${title} screenshot`} width="1080" height="1920" loading="lazy" />)}
+        </div>
+      )}
+
       {screenshots.length > 0 && (
-        <div class="screenshots reveal" data-carousel>
+        <div class={mobileShots.length ? "screenshots reveal has-mobile" : "screenshots reveal"} data-carousel>
           <div class="shots-track">
             {screenshots.map((src) => (
               <img src={src} alt={`${title} screenshot`} width="1414" height="795" loading="lazy" />
@@ -178,6 +184,30 @@ const tags = [type, tech].filter(Boolean);
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .cover.wide {
+    aspect-ratio: 1024 / 500;
+  }
+  .mobile-shots {
+    display: none;
+    margin-top: 1.75rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .mobile-shots img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 720px) {
+    .screenshots.has-mobile {
+      display: none;
+    }
+    .mobile-shots {
+      display: grid;
+    }
   }
 
   .screenshots {

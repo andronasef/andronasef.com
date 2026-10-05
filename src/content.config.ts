@@ -13,6 +13,7 @@ const projects = defineCollection({
     cover: z.string(), // /assets/projects/<slug>.<ext>
     hero: z.string().optional(), // full-res detail hero
     screenshots: z.array(z.string()).optional().default([]), // site screenshots gallery
+    mobileShots: z.array(z.string()).optional().default([]), // phone screenshots shown instead of hero on small screens
     order: z.number(),
     featured: z.boolean().default(false),
     siteUrl: z.string().optional(), // external "Visit" link
