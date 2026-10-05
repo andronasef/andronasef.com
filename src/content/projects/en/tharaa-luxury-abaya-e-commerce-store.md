@@ -9,8 +9,8 @@ screenshots:
   - /assets/projects/screenshots/tharaa-1.webp
   - /assets/projects/screenshots/tharaa-2.webp
   - /assets/projects/screenshots/tharaa-3.webp
-order: 6
-featured: true
+order: 10
+featured: false
 ---
 
 ## Project Overview

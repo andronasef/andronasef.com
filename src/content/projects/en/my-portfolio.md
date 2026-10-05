@@ -5,7 +5,7 @@ type: Branding Websites
 tech: ''
 cover: /assets/projects/portfolio.png
 hero: /assets/projects/full/portfolio.png
-order: 10
+order: 13
 featured: false
 siteUrl: https://andronasef.site/
 ---

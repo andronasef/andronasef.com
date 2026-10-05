@@ -9,7 +9,7 @@ screenshots:
   - /assets/projects/screenshots/najmat-1.webp
   - /assets/projects/screenshots/najmat-2.webp
   - /assets/projects/screenshots/najmat-3.webp
-order: 8
+order: 12
 featured: false
 ---
 

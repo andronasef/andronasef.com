@@ -9,8 +9,8 @@ screenshots:
   - /assets/projects/screenshots/fajr-1.webp
   - /assets/projects/screenshots/fajr-2.webp
   - /assets/projects/screenshots/fajr-3.webp
-order: 4
-featured: true
+order: 8
+featured: false
 ---
 
 ## Project Overview

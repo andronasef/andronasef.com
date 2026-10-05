@@ -9,8 +9,8 @@ screenshots:
   - /assets/projects/screenshots/ama-1.webp
   - /assets/projects/screenshots/ama-2.webp
   - /assets/projects/screenshots/ama-3.webp
-order: 5
-featured: true
+order: 7
+featured: false
 ---
 
 ## Project Overview

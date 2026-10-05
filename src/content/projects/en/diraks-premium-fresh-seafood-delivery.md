@@ -9,7 +9,7 @@ screenshots:
   - /assets/projects/screenshots/diraks-1.webp
   - /assets/projects/screenshots/diraks-2.webp
   - /assets/projects/screenshots/diraks-3.webp
-order: 7
+order: 11
 featured: false
 ---
 
