@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const projectsDir = path.join(root, 'src/content/projects/en');
 const publicDir = path.join(root, 'public');
-const PORT = 4321;
+const PORT = 4322; // astro dev uses 4321
 
 async function readProjects() {
   const files = (await fs.readdir(projectsDir)).filter((f) => f.endsWith('.md'));
@@ -153,6 +154,9 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Sort projects UI: http://localhost:${PORT}`);
+// 127.0.0.1 only: the page can write to your files, so keep it private
+server.listen(PORT, '127.0.0.1', () => {
+  const url = `http://localhost:${PORT}`;
+  console.log(`Sort projects UI: ${url}`);
+  spawn(process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'cmd' : 'xdg-open', process.platform === 'win32' ? ['/c', 'start', url] : [url], { stdio: 'ignore', detached: true }).unref();
 });

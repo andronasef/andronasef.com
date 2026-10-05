@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "sort": "bun scripts/sort-projects.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
