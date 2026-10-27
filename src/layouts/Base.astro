@@ -8,12 +8,15 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = 'Andrew Nasef — Mobile App Developer',
   description = "Mobile app developer crafting engaging mobile experiences that people love to use.",
+  image = '/assets/og.png',
 } = Astro.props;
+const ogImage = new URL(image, Astro.site).href;
 ---
 
 <!doctype html>
@@ -23,6 +26,17 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Andrew Nasef — Mobile App Developer" />
+    <meta property="og:site_name" content="Andrew Nasef" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
     <link rel="preload" href="/fonts/ClashDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/ClashDisplay-Semibold.woff2" as="font" type="font/woff2" crossorigin />
@@ -50,6 +64,7 @@ const {
         </script>
       </>
     )}
+    <noscript><style>[data-hero]{opacity:1!important}</style></noscript>
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

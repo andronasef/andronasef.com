@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://andronasef.site/sitemap-index.xml
+Sitemap: https://andronasef.com/sitemap-index.xml

@@ -7,7 +7,7 @@ cover: /assets/projects/portfolio.png
 hero: /assets/projects/full/portfolio.png
 order: 13
 featured: false
-siteUrl: https://andronasef.site/
+siteUrl: https://andronasef.com/
 ---
 
 My portfolio website is a great example of my skills and abilities. It showcases my ability to design and develop beautiful, user-friendly websites.

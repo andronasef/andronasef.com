@@ -186,6 +186,15 @@ section {
   will-change: opacity, transform;
 }
 
+/* Hero items start hidden (motion allowed only) so the first paint never shows
+   the finished layout before GSAP's entrance runs. <noscript> in Base.astro
+   restores visibility without JS; playHero() animates them in. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero] {
+    opacity: 0;
+  }
+}
+
 /* Accessible focus — visible ring only for keyboard users. */
 :focus-visible {
   outline: 2px solid var(--accent);
