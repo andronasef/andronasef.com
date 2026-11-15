@@ -12,3 +12,7 @@ node_modules/
 
 # gstack browse tooling
 .gstack/
+
+# shark build cache
+.cache/
+.shark-temp/

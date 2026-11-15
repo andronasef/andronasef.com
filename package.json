@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && bun scripts/build-shark.mjs",
+    "build:shark": "bun scripts/build-shark.mjs --force",
     "preview": "astro preview",
     "sort": "bun scripts/sort-projects.mjs"
   },

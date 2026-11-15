@@ -1,0 +1,7 @@
+# Shark subdomain redirects
+https://shark.andronasef.com/* https://andronasef.com/p/shark/:splat 301!
+https://shark.andronasef.com   https://andronasef.com/p/shark/       301!
+
+# Shark path redirects
+/shark   /p/shark/       301
+/shark/* /p/shark/:splat 301
