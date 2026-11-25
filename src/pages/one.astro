@@ -1,0 +1,1226 @@
+---
+import Base from "../layouts/Base.astro";
+import data from "../data/one-links.json";
+
+const socialIcons: Record<string, string> = {
+    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
+    instagram:
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+    whatsapp:
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.6.2-.2.3-.7.9-.9 1.1-.1.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.3 0-.5-.1-.2-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 5 4.3 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4zM12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg>',
+    linkedin:
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.9 3.6-1.9 3.9 0 4.6 2.5 4.6 5.8V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4V9z"/></svg>',
+    github:
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.3-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.4 4.6-4.6 4.9.3.3.6.9.6 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>',
+    twitter:
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.6l-5.2-6.7L5.3 22H2.2l7.8-8.9L1.5 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.4 3.8H5.5L17.7 20z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>',
+};
+
+const linkIcons: Record<string, string> = {
+    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
+    instagram:
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+    gamepad:
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="11" x2="10" y2="11"/><line x1="8" y1="9" x2="8" y2="13"/><line x1="15" y1="12" x2="15.01" y2="12"/><line x1="18" y1="10" x2="18.01" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>',
+    briefcase:
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+    message:
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+};
+
+function buildSearchText(link: (typeof data.links)[number]): string {
+    return [
+        link.en.title,
+        link.en.description,
+        link.en.badge ?? "",
+        link.ar.title,
+        link.ar.description,
+        link.ar.badge ?? "",
+        ...link.keywords,
+    ]
+        .filter(Boolean)
+        .join(" ");
+}
+---
+
+<Base
+    title="One — Andrew Nasef"
+    description="All of Andrew Nasef's links, socials, apps, and featured resources in one searchable place."
+    chrome={false}
+>
+    <Fragment slot="head">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+        />
+    </Fragment>
+    <section class="one-page" id="onePage" dir="ltr" data-lang="en">
+        <div class="one-grid" aria-hidden="true"></div>
+        <div class="one-glow" aria-hidden="true"></div>
+
+        <div class="one-shell">
+            <div class="one-topbar" data-hero>
+                <button
+                    type="button"
+                    id="oneLangToggle"
+                    class="one-lang-btn"
+                    aria-label="Switch language"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="14"
+                        height="14"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                    </svg>
+                    <span id="oneLangLabel">{data.ui.en.switchLangLabel}</span>
+                </button>
+            </div>
+
+            <header class="one-profile">
+                <a
+                    href="/"
+                    class="one-avatar"
+                    data-hero
+                    aria-label="Andrew Nasef — Go to main website"
+                >
+                    <img
+                        src="/assets/logo.svg"
+                        alt="Andrew Nasef"
+                        width="44"
+                        height="44"
+                    />
+                </a>
+
+                <a
+                    href="https://www.linkedin.com/in/andronasef"
+                    target="_blank"
+                    rel="noopener"
+                    class="one-status"
+                    data-hero
+                >
+                    <span class="status-dot"></span>
+                    <span id="oneStatus">{data.ui.en.status}</span>
+                </a>
+
+                <h1 id="oneName" data-hero>{data.ui.en.name}</h1>
+                <p class="one-role" id="oneRole" data-hero>{data.ui.en.role}</p>
+
+                <nav class="one-socials" data-hero aria-label="Social profiles">
+                    {
+                        data.socials.map((s) => (
+                            <a
+                                href={s.href}
+                                target={
+                                    s.href.startsWith("http")
+                                        ? "_blank"
+                                        : undefined
+                                }
+                                rel={
+                                    s.href.startsWith("http")
+                                        ? "noopener"
+                                        : undefined
+                                }
+                                data-social-id={s.id}
+                                aria-label={s.label.en}
+                                title={s.label.en}
+                                set:html={socialIcons[s.icon]}
+                            />
+                        ))
+                    }
+                </nav>
+            </header>
+
+            <div class="one-search-wrap" data-hero hidden={data.links.length === 0}>
+                <label class="one-search-label" for="oneSearch" id="oneSearchLabel">
+                    {data.ui.en.searchLabel}
+                </label>
+                <div class="one-search-box">
+                    <span class="one-search-icon" aria-hidden="true">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                    </span>
+                    <input
+                        id="oneSearch"
+                        type="search"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        placeholder={data.ui.en.searchPlaceholder}
+                        aria-describedby="oneResultCount"
+                    />
+                    <button
+                        type="button"
+                        id="oneSearchClear"
+                        class="one-search-clear"
+                        aria-label={data.ui.en.clearSearch}
+                        hidden
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                        >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                        </svg>
+                    </button>
+                    <kbd class="one-search-kbd" aria-hidden="true">/</kbd>
+                </div>
+                <div class="one-search-meta">
+                    <span id="oneResultCount" aria-live="polite">
+                        {data.ui.en.allCount.replace("{n}", String(data.links.length))}
+                    </span>
+                </div>
+            </div>
+
+            <div class="one-links" id="oneLinks" data-hero>
+                {
+                    data.links.map((item) => (
+                        <a
+                            href={item.href}
+                            target={item.external ? "_blank" : undefined}
+                            rel={item.external ? "noopener" : undefined}
+                            class:list={[
+                                "link-card",
+                                { "is-featured": item.featured },
+                            ]}
+                            data-id={item.id}
+                            data-search={buildSearchText(item)}
+                            data-dummy={item.id === "dummy-game" ? "true" : undefined}
+                        >
+                            <span class="link-main">
+                            <span
+                                class="link-icon"
+                                aria-hidden="true"
+                                set:html={linkIcons[item.icon]}
+                            />
+                            <span class="link-body">
+                                <span class="link-title-row">
+                                    <span class="link-title">
+                                        {item.en.title}
+                                    </span>
+                                    {(item.en.badge || item.ar.badge) && (
+                                        <span
+                                            class="link-badge"
+                                            hidden={!item.en.badge}
+                                        >
+                                            {item.en.badge ?? ""}
+                                        </span>
+                                    )}
+                                </span>
+                                <span class="link-desc">
+                                    {item.en.description}
+                                </span>
+                            </span>
+                            <span
+                                class:list={[
+                                    "link-arrow",
+                                    { "is-external": item.external },
+                                ]}
+                                aria-hidden="true"
+                            >
+                                {item.external ? (
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M7 17 17 7" />
+                                        <path d="M7 7h10v10" />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                )}
+                            </span>
+                            </span>
+                            {item.thumbnail && (
+                                <span class="link-thumb">
+                                    <img
+                                        src={item.thumbnail}
+                                        alt=""
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </span>
+                            )}
+                        </a>
+                    ))
+                }
+            </div>
+
+            <div class="one-empty" id="oneEmpty" hidden>
+                <p class="one-empty-title" id="oneEmptyTitle">
+                    {data.ui.en.emptyTitle}
+                </p>
+                <p class="one-empty-sub" id="oneEmptySub">
+                    {data.ui.en.emptySub}
+                </p>
+                <button type="button" id="oneEmptyReset" class="btn btn-ghost">
+                    {data.ui.en.emptyReset}
+                </button>
+            </div>
+
+            <div class="one-toast" id="oneToast" role="status" aria-live="polite" hidden>
+                {data.ui.en.dummyToast}
+            </div>
+
+            <footer class="one-footer">
+                <a href="/" class="one-back">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="15"
+                        height="15"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="m12 19-7-7 7-7"></path>
+                        <path d="M19 12H5"></path>
+                    </svg>
+                    andronasef.com
+                </a>
+                <span class="one-copy">
+                    © <span id="oneYear">{new Date().getFullYear()}</span>
+                    <span id="oneCopyName">{data.ui.en.name}</span>
+                </span>
+            </footer>
+        </div>
+    </section>
+
+    <script is:inline define:vars={{ oneData: data }}>
+        window.__ONE_DATA__ = oneData;
+    </script>
+</Base>
+
+<style>
+    .one-page[data-lang="ar"],
+    .one-page[data-lang="ar"] input {
+        font-family: "IBM Plex Sans Arabic", var(--sans);
+    }
+
+    /* Language switch: fade/blur the content out, swap text + direction while
+       hidden, then fade back in (see langToggle handler). */
+    .one-shell > :not(.one-topbar, .one-toast) {
+        transition:
+            opacity 0.22s ease,
+            filter 0.22s ease,
+            transform 0.22s ease;
+    }
+    .one-page.is-switching .one-shell > :not(.one-topbar, .one-toast) {
+        /* !important beats GSAP's leftover inline hero styles. */
+        opacity: 0 !important;
+        filter: blur(6px);
+        transform: translateY(6px) !important;
+    }
+
+    .one-page {
+        position: relative;
+        min-height: 100svh;
+        overflow: hidden;
+        padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1rem, 4vw, 1.5rem)
+            clamp(2.5rem, 6vw, 3.5rem);
+    }
+
+    .one-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(var(--border) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 56px 56px;
+        opacity: 0.35;
+        mask-image: radial-gradient(
+            ellipse 75% 55% at 50% 22%,
+            #000 18%,
+            transparent 74%
+        );
+        -webkit-mask-image: radial-gradient(
+            ellipse 75% 55% at 50% 22%,
+            #000 18%,
+            transparent 74%
+        );
+    }
+
+    .one-glow {
+        position: absolute;
+        top: -12%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(680px, 94vw);
+        height: 440px;
+        background: radial-gradient(
+            ellipse at center,
+            rgba(26, 101, 252, 0.22),
+            transparent 62%
+        );
+        filter: blur(26px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .one-shell {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 540px;
+        margin-inline: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+    }
+
+    .one-topbar {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .one-lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.38rem 0.78rem;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted-2);
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            border-color 0.22s var(--ease),
+            color 0.22s var(--ease),
+            background 0.22s var(--ease);
+    }
+    .one-lang-btn:hover {
+        border-color: var(--accent);
+        color: var(--ink);
+        background: var(--surface-2);
+    }
+
+    /* Profile header */
+    .one-profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .one-avatar {
+        width: 84px;
+        height: 84px;
+        border-radius: 24px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(
+            155deg,
+            var(--surface-2),
+            var(--surface)
+        );
+        border: 1px solid rgba(26, 101, 252, 0.38);
+        box-shadow: 0 12px 34px rgba(26, 101, 252, 0.16);
+        margin-bottom: 1.1rem;
+        transition:
+            transform 0.28s var(--ease),
+            border-color 0.28s var(--ease);
+    }
+    .one-avatar:hover {
+        transform: translateY(-3px);
+        border-color: var(--accent);
+    }
+    .one-avatar img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .one-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.34rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(37, 211, 102, 0.1);
+        border: 1px solid rgba(37, 211, 102, 0.28);
+        color: #7be0a0;
+        font-size: 0.78rem;
+        font-weight: 500;
+        margin-bottom: 0.85rem;
+        transition:
+            background 0.22s var(--ease),
+            border-color 0.22s var(--ease),
+            transform 0.22s var(--ease);
+    }
+    .one-status:hover {
+        background: rgba(37, 211, 102, 0.16);
+        border-color: rgba(37, 211, 102, 0.55);
+        transform: translateY(-1px);
+    }
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #25d366;
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+        animation: status-pulse 2s var(--ease) infinite;
+    }
+    @keyframes status-pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
+        }
+        70%,
+        100% {
+            box-shadow: 0 0 0 7px rgba(37, 211, 102, 0);
+        }
+    }
+
+    .one-profile h1 {
+        font-family: var(--display);
+        font-size: clamp(2rem, 7vw, 2.75rem);
+        letter-spacing: -0.03em;
+        margin: 0 0 0.25rem;
+    }
+    .one-page[data-lang="ar"] .one-profile h1 {
+        font-family: inherit;
+        letter-spacing: 0;
+        line-height: 1.25;
+    }
+    .one-role {
+        margin: 0 0 1.25rem;
+        color: var(--muted);
+        font-size: 0.94rem;
+    }
+
+    .one-socials {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+    .one-socials a {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted-2);
+        transition:
+            background 0.25s var(--ease),
+            border-color 0.25s var(--ease),
+            color 0.25s var(--ease),
+            transform 0.25s var(--ease);
+    }
+    .one-socials a:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+    .one-socials :global(svg) {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Instant search */
+    .one-search-wrap {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 20;
+        padding: 0.35rem;
+        margin: -0.35rem;
+        border-radius: calc(var(--radius) + 4px);
+        background: rgba(26, 26, 26, 0.82);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    .one-search-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .one-search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        transition:
+            border-color 0.22s var(--ease),
+            box-shadow 0.22s var(--ease),
+            background 0.22s var(--ease);
+    }
+    .one-search-box:focus-within {
+        border-color: var(--accent);
+        background: var(--surface-2);
+        box-shadow: 0 0 0 3px rgba(26, 101, 252, 0.18);
+    }
+    .one-search-icon {
+        display: grid;
+        place-items: center;
+        padding-inline-start: 1rem;
+        color: var(--muted);
+        pointer-events: none;
+    }
+    .one-search-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    #oneSearch {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font: inherit;
+        font-size: 0.96rem;
+        padding: 0.92rem 0.75rem;
+        min-width: 0;
+        outline: none;
+    }
+    #oneSearch::placeholder {
+        color: var(--muted);
+    }
+    #oneSearch::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+    }
+    .one-search-clear {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        margin-inline-end: 0.45rem;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition:
+            color 0.2s var(--ease),
+            background 0.2s var(--ease);
+    }
+    .one-search-clear[hidden] {
+        display: none;
+    }
+    .one-search-clear:hover {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.07);
+    }
+    .one-search-clear svg {
+        width: 16px;
+        height: 16px;
+    }
+    .one-search-kbd {
+        margin-inline-end: 0.8rem;
+        padding: 0.12rem 0.48rem;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.74rem;
+        line-height: 1.4;
+        user-select: none;
+    }
+    .one-search-box:focus-within .one-search-kbd {
+        display: none;
+    }
+
+    .one-search-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0.25rem 0.1rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+    }
+
+    /* Link cards */
+    .one-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .link-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        padding: 1rem 1.1rem;
+        border-radius: var(--radius);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        transition:
+            transform 0.25s var(--ease),
+            border-color 0.25s var(--ease),
+            background 0.25s var(--ease),
+            box-shadow 0.25s var(--ease);
+    }
+    .link-main {
+        display: flex;
+        align-items: center;
+        gap: 0.95rem;
+    }
+    .link-thumb {
+        display: block;
+        aspect-ratio: 16 / 9;
+        border-radius: calc(var(--radius) - 4px);
+        overflow: hidden;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+    }
+    .link-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s var(--ease);
+    }
+    .link-card:hover .link-thumb img {
+        transform: scale(1.03);
+    }
+    .link-card[hidden] {
+        display: none;
+    }
+    .link-card.is-featured {
+        border-color: rgba(26, 101, 252, 0.36);
+        background: linear-gradient(
+            135deg,
+            rgba(26, 101, 252, 0.08),
+            var(--surface) 55%
+        );
+    }
+    .link-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent);
+        background: var(--surface-2);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .link-icon {
+        display: grid;
+        place-items: center;
+        flex: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: rgba(26, 101, 252, 0.12);
+        color: var(--accent);
+        transition:
+            background 0.25s var(--ease),
+            color 0.25s var(--ease);
+    }
+    .link-card:hover .link-icon {
+        background: var(--accent);
+        color: #fff;
+    }
+    .link-icon :global(svg) {
+        width: 21px;
+        height: 21px;
+    }
+
+    .link-body {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        text-align: start;
+    }
+    .link-title-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+    .link-title {
+        color: var(--ink);
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 1.02rem;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+    .one-page[data-lang="ar"] .link-title {
+        font-family: inherit;
+        letter-spacing: 0;
+    }
+    .link-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 0.14rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(26, 101, 252, 0.16);
+        color: #7aa7ff;
+        border: 1px solid rgba(26, 101, 252, 0.3);
+    }
+    .link-badge[hidden] {
+        display: none;
+    }
+    .link-desc {
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.45;
+    }
+
+    .link-arrow {
+        flex: none;
+        color: var(--muted);
+        display: grid;
+        place-items: center;
+        transition:
+            transform 0.25s var(--ease),
+            color 0.25s var(--ease);
+    }
+    .link-arrow svg {
+        width: 18px;
+        height: 18px;
+    }
+    .one-page[dir="rtl"] .link-arrow svg {
+        transform: scaleX(-1);
+    }
+    .link-card:hover .link-arrow {
+        color: var(--accent);
+        transform: translate(2px, -1px);
+    }
+    .one-page[dir="rtl"] .link-card:hover .link-arrow {
+        transform: translate(-2px, -1px);
+    }
+
+    /* Empty state */
+    .one-empty {
+        text-align: center;
+        padding: 2.25rem 1.25rem;
+        border-radius: var(--radius);
+        background: var(--surface);
+        border: 1px dashed var(--border);
+    }
+    .one-search-wrap[hidden],
+    .one-empty[hidden] {
+        display: none;
+    }
+    .one-empty-title {
+        color: var(--ink);
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0 0 0.35rem;
+    }
+    .one-page[data-lang="ar"] .one-empty-title {
+        font-family: inherit;
+    }
+    .one-empty-sub {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin: 0 0 1.15rem;
+    }
+
+    /* Dummy link toast */
+    .one-toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.25rem;
+        transform: translateX(-50%);
+        z-index: var(--z-float);
+        max-width: min(90vw, 440px);
+        padding: 0.75rem 1rem;
+        border-radius: 10px;
+        background: var(--surface-2);
+        border: 1px solid var(--accent);
+        color: var(--ink);
+        font-size: 0.86rem;
+        text-align: center;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    }
+    .one-toast[hidden] {
+        display: none;
+    }
+
+    /* Minimal footer */
+    .one-footer {
+        margin-top: 0.75rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.84rem;
+        color: var(--muted);
+    }
+    .one-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--muted-2);
+        transition: color 0.2s var(--ease);
+    }
+    .one-page[dir="rtl"] .one-back svg {
+        transform: scaleX(-1);
+    }
+    .one-back:hover {
+        color: var(--accent);
+    }
+
+    @media (max-width: 560px) {
+        .one-search-kbd {
+            display: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .status-dot {
+            animation: none;
+        }
+        .link-card:hover,
+        .one-avatar:hover,
+        .one-socials a:hover {
+            transform: none;
+        }
+    }
+</style>
+
+<script>
+    type Locale = "en" | "ar";
+
+    interface OneData {
+        ui: Record<
+            Locale,
+            {
+                name: string;
+                role: string;
+                status: string;
+                searchLabel: string;
+                searchPlaceholder: string;
+                clearSearch: string;
+                allCount: string;
+                filteredCount: string;
+                emptyTitle: string;
+                emptySub: string;
+                emptyReset: string;
+                dummyToast: string;
+                switchLangLabel: string;
+            }
+        >;
+        socials: Array<{
+            id: string;
+            label: Record<Locale, string>;
+        }>;
+        links: Array<{
+            id: string;
+            en: { title: string; description: string; badge?: string };
+            ar: { title: string; description: string; badge?: string };
+        }>;
+    }
+
+    const STORAGE_KEY = "one-lang-pref";
+
+    function detectLocale(): Locale {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved === "ar" || saved === "en") return saved;
+        } catch {
+            // Ignore storage errors in restricted contexts.
+        }
+        const langs = navigator.languages?.length
+            ? navigator.languages
+            : [navigator.language || "en"];
+        const primary = (langs[0] || "en").toLowerCase();
+        return primary.startsWith("ar") ? "ar" : "en";
+    }
+
+    function normalizeText(value: string): string {
+        return value
+            .toLowerCase()
+            .normalize("NFKD")
+            .replace(/[\u064B-\u065F\u0670\u0640]/g, "")
+            .replace(/[أإآٱ]/g, "ا")
+            .replace(/ى/g, "ي")
+            .replace(/ة/g, "ه")
+            .replace(/ؤ/g, "و")
+            .replace(/ئ/g, "ي")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    let keyListenerBound = false;
+
+    function wireOnePage() {
+        const pageEl = document.getElementById("onePage");
+        const data = (window as unknown as { __ONE_DATA__?: OneData }).__ONE_DATA__;
+        if (!pageEl || !data) return;
+
+        const input = document.getElementById(
+            "oneSearch",
+        ) as HTMLInputElement | null;
+        const clearBtn = document.getElementById("oneSearchClear");
+        const countEl = document.getElementById("oneResultCount");
+        const emptyEl = document.getElementById("oneEmpty");
+        const resetBtn = document.getElementById("oneEmptyReset");
+        const toastEl = document.getElementById("oneToast");
+        const yearEl = document.getElementById("oneYear");
+        const langToggle = document.getElementById("oneLangToggle");
+        const langLabel = document.getElementById("oneLangLabel");
+
+        const nameEl = document.getElementById("oneName");
+        const copyNameEl = document.getElementById("oneCopyName");
+        const roleEl = document.getElementById("oneRole");
+        const statusEl = document.getElementById("oneStatus");
+        const searchLabelEl = document.getElementById("oneSearchLabel");
+        const emptyTitleEl = document.getElementById("oneEmptyTitle");
+        const emptySubEl = document.getElementById("oneEmptySub");
+
+        const cards = Array.from(
+            document.querySelectorAll<HTMLAnchorElement>("#oneLinks .link-card"),
+        );
+        const socialLinks = Array.from(
+            document.querySelectorAll<HTMLAnchorElement>("[data-social-id]"),
+        );
+
+        if (!input) return;
+
+        if (yearEl) {
+            yearEl.textContent = String(new Date().getFullYear());
+        }
+
+        const linkMap = new Map(data.links.map((item) => [item.id, item]));
+        const socialMap = new Map(data.socials.map((item) => [item.id, item]));
+        const indexed = cards.map((card) => ({
+            card,
+            text: normalizeText(card.dataset.search ?? ""),
+        }));
+
+        let currentLang: Locale = detectLocale();
+
+        function updateCount(visible: number, query: string) {
+            if (!countEl) return;
+            const ui = data!.ui[currentLang];
+            const template = query ? ui.filteredCount : ui.allCount;
+            countEl.textContent = template
+                .replace("{n}", String(visible))
+                .replace("{total}", String(indexed.length));
+        }
+
+        function applyLocale(lang: Locale) {
+            currentLang = lang;
+            const ui = data!.ui[lang];
+            pageEl!.dataset.lang = lang;
+            pageEl!.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+
+            if (nameEl) nameEl.textContent = ui.name;
+            if (copyNameEl) copyNameEl.textContent = ui.name;
+            if (roleEl) roleEl.textContent = ui.role;
+            if (statusEl) statusEl.textContent = ui.status;
+            if (searchLabelEl) searchLabelEl.textContent = ui.searchLabel;
+            if (input) input.placeholder = ui.searchPlaceholder;
+            if (clearBtn) clearBtn.setAttribute("aria-label", ui.clearSearch);
+            if (emptyTitleEl) emptyTitleEl.textContent = ui.emptyTitle;
+            if (emptySubEl) emptySubEl.textContent = ui.emptySub;
+            if (resetBtn) resetBtn.textContent = ui.emptyReset;
+            if (toastEl) toastEl.textContent = ui.dummyToast;
+            if (langLabel) langLabel.textContent = ui.switchLangLabel;
+
+            socialLinks.forEach((el) => {
+                const social = socialMap.get(el.dataset.socialId ?? "");
+                if (!social) return;
+                const text = social.label[lang];
+                el.setAttribute("aria-label", text);
+                el.setAttribute("title", text);
+            });
+
+            cards.forEach((card) => {
+                const item = linkMap.get(card.dataset.id ?? "");
+                if (!item) return;
+                const localized = item[lang];
+                const titleEl = card.querySelector(".link-title");
+                const descEl = card.querySelector(".link-desc");
+                const badgeEl = card.querySelector<HTMLElement>(".link-badge");
+                if (titleEl) titleEl.textContent = localized.title;
+                if (descEl) descEl.textContent = localized.description;
+                if (badgeEl) {
+                    if (localized.badge) {
+                        badgeEl.textContent = localized.badge;
+                        badgeEl.hidden = false;
+                    } else {
+                        badgeEl.textContent = "";
+                        badgeEl.hidden = true;
+                    }
+                }
+            });
+
+            applyFilter(input!.value);
+        }
+
+        function applyFilter(raw: string) {
+            const query = normalizeText(raw);
+            const terms = query ? query.split(" ") : [];
+            let visible = 0;
+
+            for (const item of indexed) {
+                const matched = terms.every((term) => item.text.includes(term));
+                item.card.hidden = !matched;
+                if (matched) visible += 1;
+            }
+
+            if (clearBtn) {
+                clearBtn.hidden = raw.length === 0;
+            }
+
+            updateCount(visible, query);
+
+            if (emptyEl) {
+                emptyEl.hidden = visible > 0 || indexed.length === 0;
+            }
+        }
+
+        input.addEventListener("input", () => applyFilter(input.value));
+
+        clearBtn?.addEventListener("click", () => {
+            input.value = "";
+            applyFilter("");
+            input.focus();
+        });
+
+        resetBtn?.addEventListener("click", () => {
+            input.value = "";
+            applyFilter("");
+            input.focus();
+        });
+
+        langToggle?.addEventListener("click", () => {
+            const next: Locale = currentLang === "en" ? "ar" : "en";
+            try {
+                localStorage.setItem(STORAGE_KEY, next);
+            } catch {
+                // Ignore storage errors.
+            }
+            if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                applyLocale(next);
+                return;
+            }
+            pageEl!.classList.add("is-switching");
+            window.setTimeout(() => {
+                applyLocale(next);
+                requestAnimationFrame(() =>
+                    pageEl!.classList.remove("is-switching"),
+                );
+            }, 220);
+        });
+
+        let toastTimer: number | undefined;
+        cards.forEach((card) => {
+            if (card.dataset.dummy === "true") {
+                card.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (!toastEl) return;
+                    toastEl.hidden = false;
+                    window.clearTimeout(toastTimer);
+                    toastTimer = window.setTimeout(() => {
+                        toastEl.hidden = true;
+                    }, 3200);
+                });
+            }
+        });
+
+        // GA4: which link on /one gets clicked and where it goes
+        document
+            .querySelectorAll<HTMLAnchorElement>(
+                "#onePage .link-card, #onePage .one-socials a, #onePage .one-status",
+            )
+            .forEach((a) => {
+                a.addEventListener("click", () => {
+                    const gtag = (window as any).gtag;
+                    if (typeof gtag !== "function") return;
+                    gtag("event", "one_link_click", {
+                        link_id:
+                            a.dataset.id ??
+                            a.dataset.socialId ??
+                            (a.classList.contains("one-status") ? "status" : ""),
+                        link_url: a.href,
+                        link_area: a.classList.contains("link-card")
+                            ? "card"
+                            : a.classList.contains("one-status")
+                              ? "status"
+                              : "social",
+                        search_query: input?.value.trim() || undefined,
+                        lang: currentLang,
+                    });
+                });
+            });
+
+        if (!keyListenerBound) {
+            keyListenerBound = true;
+            document.addEventListener("keydown", (e) => {
+                const activeInput = document.getElementById(
+                    "oneSearch",
+                ) as HTMLInputElement | null;
+                if (!activeInput) return;
+
+                if (
+                    e.key === "/" &&
+                    document.activeElement !== activeInput &&
+                    !(document.activeElement instanceof HTMLInputElement) &&
+                    !(document.activeElement instanceof HTMLTextAreaElement)
+                ) {
+                    e.preventDefault();
+                    activeInput.focus();
+                } else if (
+                    e.key === "Escape" &&
+                    document.activeElement === activeInput &&
+                    activeInput.value
+                ) {
+                    activeInput.value = "";
+                    activeInput.dispatchEvent(new Event("input"));
+                }
+            });
+        }
+
+        applyLocale(currentLang);
+    }
+
+    document.addEventListener("astro:page-load", wireOnePage);
+</script>

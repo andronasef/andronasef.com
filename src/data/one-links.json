@@ -1,0 +1,102 @@
+{
+  "ui": {
+    "en": {
+      "name": "Andrew Nasef",
+      "role": "Mobile App Developer",
+      "status": "Available to collaborate on projects",
+      "searchLabel": "Search links",
+      "searchPlaceholder": "Search links (English or Arabic)...",
+      "clearSearch": "Clear search",
+      "allCount": "{n} links",
+      "filteredCount": "{n} of {total}",
+      "emptyTitle": "No matching links",
+      "emptySub": "Try another keyword in English or Arabic.",
+      "emptyReset": "Show all",
+      "dummyToast": "Demo link — send the real game URL whenever you're ready.",
+      "switchLangLabel": "عربي"
+    },
+    "ar": {
+      "name": "أندرو ناصف",
+      "role": "مطور تطبيقات موبايل",
+      "status": "متاح للتعاون في مشاريع",
+      "searchLabel": "بحث",
+      "searchPlaceholder": "ابحث عن أي رابط (عربي أو إنجليزي)...",
+      "clearSearch": "مسح",
+      "allCount": "{n} روابط",
+      "filteredCount": "{n} من {total}",
+      "emptyTitle": "مفيش نتائج",
+      "emptySub": "جرب كلمة تانية بالعربي أو الإنجليزي.",
+      "emptyReset": "عرض الكل",
+      "dummyToast": "ده رابط تجريبي — ابعتلي رابط اللعبة عشان أضيفه.",
+      "switchLangLabel": "EN"
+    }
+  },
+  "socials": [
+    {
+      "id": "website",
+      "href": "/",
+      "icon": "globe",
+      "label": {
+        "en": "Website",
+        "ar": "الموقع"
+      }
+    },
+    {
+      "id": "instagram",
+      "href": "https://instagram.com/andronasef",
+      "icon": "instagram",
+      "label": {
+        "en": "Instagram",
+        "ar": "إنستجرام"
+      }
+    },
+    {
+      "id": "github",
+      "href": "https://github.com/andronasef/",
+      "icon": "github",
+      "label": {
+        "en": "GitHub",
+        "ar": "جيت هب"
+      }
+    },
+    {
+      "id": "email",
+      "href": "mailto:hello@andronasef.com",
+      "icon": "mail",
+      "label": {
+        "en": "Email",
+        "ar": "البريد الإلكتروني"
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "contact",
+      "href": "/contact/",
+      "external": false,
+      "icon": "message",
+      "en": {
+        "title": "Book a Free Consultation",
+        "description": "Have an app idea? Let’s talk"
+      },
+      "ar": {
+        "title": "تواصل معايا",
+        "description": "عندك فكرة تطبيق أو مشروع؟ احجز استشارة"
+      },
+      "keywords": [
+        "contact",
+        "hire",
+        "quote",
+        "consultation",
+        "project",
+        "freelance",
+        "تواصل",
+        "استشارة",
+        "حجز",
+        "فريلانس",
+        "سعر",
+        "مشروع"
+      ]
+    }
+  ]
+}
